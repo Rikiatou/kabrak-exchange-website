@@ -20,9 +20,14 @@ export default function Home() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ businessName: formData.business, ownerName: formData.name, ownerEmail: formData.email, ownerPhone: formData.phone, country: formData.country, message: formData.message }),
       });
-      if (res.ok) setFormStatus('success');
-      else setFormStatus('error');
-    } catch { setFormStatus('error'); }
+      if (res.ok) {
+        setFormStatus('success');
+      } else {
+        const err = await res.json().catch(() => ({}));
+        console.error('API error:', res.status, err);
+        setFormStatus('error');
+      }
+    } catch (e) { console.error('Fetch error:', e); setFormStatus('error'); }
   };
 
   const set = (k: string, v: string) => setFormData(p => ({ ...p, [k]: v }));
