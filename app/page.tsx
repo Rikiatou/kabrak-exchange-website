@@ -7,7 +7,7 @@ export default function Home() {
   const [lang, setLang] = useState<Lang>('fr');
   const [menuOpen, setMenuOpen] = useState(false);
   const [formData, setFormData] = useState({ name: '', business: '', email: '', phone: '', country: '', message: '' });
-  const [formStatus, setFormStatus] = useState<'idle'|'loading'|'success'|'error'>('idle');
+  const [formStatus, setFormStatus] = useState<'idle'|'loading'|'success'|'error'|'duplicate'>('idle');
   const T = t[lang];
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -22,12 +22,12 @@ export default function Home() {
       });
       if (res.ok) {
         setFormStatus('success');
+      } else if (res.status === 409) {
+        setFormStatus('duplicate');
       } else {
-        const err = await res.json().catch(() => ({}));
-        console.error('API error:', res.status, err);
         setFormStatus('error');
       }
-    } catch (e) { console.error('Fetch error:', e); setFormStatus('error'); }
+    } catch { setFormStatus('error'); }
   };
 
   const set = (k: string, v: string) => setFormData(p => ({ ...p, [k]: v }));
@@ -205,6 +205,7 @@ export default function Home() {
                 </div>
               </div>
               {formStatus === 'error' && <p className="text-sm" style={{ color: '#f87171' }}>{T.contact.error}</p>}
+              {formStatus === 'duplicate' && <p className="text-sm" style={{ color: '#fbbf24' }}>{lang === 'fr' ? '⚠️ Cet email a déjà soumis une demande. Nous vous contacterons bientôt.' : '⚠️ This email already has a pending request. We will contact you soon.'}</p>}
               <button type="submit" disabled={formStatus === 'loading'} className="flex items-center justify-center gap-2 py-4 rounded-xl font-bold text-white disabled:opacity-60" style={{ background: '#0B6E4F', boxShadow: '0 8px 25px rgba(11,110,79,0.35)' }}>
                 {formStatus === 'loading' ? T.contact.submitting : <>{T.contact.submit} <ArrowRight size={16} /></>}
               </button>
