@@ -14,7 +14,8 @@ export default function Home() {
     e.preventDefault();
     setFormStatus('loading');
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/licenses/request`, {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://kabrak-exchange-pro-production.up.railway.app';
+      const res = await fetch(`${apiUrl}/api/licenses/request`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ businessName: formData.business, ownerName: formData.name, ownerEmail: formData.email, ownerPhone: formData.phone, country: formData.country, message: formData.message }),
