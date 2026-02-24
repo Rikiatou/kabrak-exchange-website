@@ -1,8 +1,9 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
+import { useParams } from 'next/navigation';
 import { CheckCircle, Upload, AlertCircle, Camera, FileText, Loader } from 'lucide-react';
 
-const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+const API = process.env.NEXT_PUBLIC_API_URL || 'https://kabrak-exchange-pro-production.up.railway.app';
 
 type DepositInfo = {
   code: string;
@@ -60,7 +61,8 @@ const T = {
   },
 };
 
-export default function UploadPage({ params }: { params: { code: string } }) {
+export default function UploadPage() {
+  const params = useParams();
   const [lang, setLang] = useState<Lang>('fr');
   const [deposit, setDeposit] = useState<DepositInfo | null>(null);
   const [loadError, setLoadError] = useState('');
@@ -73,7 +75,7 @@ export default function UploadPage({ params }: { params: { code: string } }) {
   const [dragging, setDragging] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const t = T[lang];
-  const code = params.code.toUpperCase();
+  const code = (params.code as string).toUpperCase();
 
   useEffect(() => {
     Promise.all([

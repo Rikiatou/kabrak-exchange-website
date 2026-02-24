@@ -1,8 +1,9 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
+import { useParams } from 'next/navigation';
 import { CheckCircle, Upload, AlertCircle, Camera, FileText, Loader, ChevronDown, ChevronUp, Clock, X } from 'lucide-react';
 
-const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+const API = process.env.NEXT_PUBLIC_API_URL || 'https://kabrak-exchange-pro-production.up.railway.app';
 
 type Lang = 'fr' | 'en';
 
@@ -362,7 +363,8 @@ function OrderCard({ order, t, lang, clientCode, onRefresh }: { order: Order; t:
   );
 }
 
-export default function ClientPortalPage({ params }: { params: { code: string } }) {
+export default function ClientPortalPage() {
+  const params = useParams();
   const [lang, setLang] = useState<Lang>('fr');
   const [client, setClient] = useState<ClientData | null>(null);
   const [orders, setOrders] = useState<Order[]>([]);
@@ -372,7 +374,7 @@ export default function ClientPortalPage({ params }: { params: { code: string } 
   const [showInstall, setShowInstall] = useState(false);
   const [businessName, setBusinessName] = useState('KABRAK Exchange Pro');
 
-  const code = params.code.toUpperCase();
+  const code = (params.code as string).toUpperCase();
   const t = T[lang];
 
   const load = async () => {
