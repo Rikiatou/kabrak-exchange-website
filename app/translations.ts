@@ -24,6 +24,7 @@ export const t = {
       title: 'Tout ce dont vous avez besoin',
       subtitle: 'Conçue exclusivement pour les bureaux de change — pas un logiciel générique adapté, une solution pensée pour votre métier.',
       items: [
+        { icon: '🌍', title: 'Versements clients digitaux', desc: 'Vous créez une commande, l\'app génère un lien unique. Vous l\'envoyez au client par WhatsApp. Le client ouvre le lien, filme son reçu bancaire avec son téléphone, entre le montant et envoie. Vous recevez une notification instantanée avec la photo du reçu. Vous confirmez en 1 clic. Tout est tracé, zéro appel, zéro déplacement.' },
         { icon: '💱', title: 'Stock & taux en temps réel', desc: 'Taux de change automatiques depuis les marchés internationaux. Alertes stock bas. Inventaire physique en caisse à portée de main.' },
         { icon: '👥', title: 'Zéro client perdu', desc: 'Fiches clients complètes, historique de toutes leurs transactions, relevés de compte, suivi des dettes. Vos clients vous font confiance.' },
         { icon: '📊', title: 'Rapports qui parlent d\'argent', desc: 'Combien avez-vous gagné aujourd\'hui ? Cette semaine ? Par devise ? En 2 secondes, vous avez la réponse. Export Excel et PDF inclus.' },
@@ -31,7 +32,6 @@ export const t = {
         { icon: '📒', title: 'Clôture de caisse en 1 clic', desc: 'Fini les 2 heures de comptage en fin de journée. La clôture se fait automatiquement avec rapport complet imprimable.' },
         { icon: '🧾', title: 'Reçus professionnels', desc: 'Vos clients reçoivent un reçu PDF bilingue FR/EN en quelques secondes. Vous semblez aussi professionnel qu\'une banque.' },
         { icon: '📱', title: 'Gestion depuis votre téléphone', desc: 'Vous êtes absent ? Vous gérez depuis n\'importe où. iOS et Android. Tableau de bord en temps réel dans votre poche.' },
-        { icon: '🌍', title: 'Versements clients digitaux', desc: 'Vos clients envoient leurs reçus bancaires directement depuis leur téléphone. Vous êtes notifié instantanément.' },
       ],
     },
     howItWorks: {
@@ -155,6 +155,7 @@ export const t = {
       title: 'Everything you need',
       subtitle: 'Built exclusively for currency exchange offices — not a generic software adapted, a solution designed for your business.',
       items: [
+        { icon: '🌍', title: 'Digital client payments', desc: 'You create an order, the app generates a unique link. You send it to the client via WhatsApp. The client opens the link, takes a photo of their bank receipt, enters the amount and sends it. You receive an instant notification with the receipt photo. You confirm in 1 click. Everything is tracked, zero calls, zero trips.' },
         { icon: '💱', title: 'Stock & rates in real time', desc: 'Automatic exchange rates from international markets. Low stock alerts. Physical cash inventory at your fingertips.' },
         { icon: '👥', title: 'Zero lost clients', desc: 'Complete client profiles, full transaction history, account statements, debt tracking. Your clients trust you.' },
         { icon: '📊', title: 'Reports that talk money', desc: 'How much did you earn today? This week? Per currency? In 2 seconds, you have the answer. Excel and PDF export included.' },
@@ -162,7 +163,6 @@ export const t = {
         { icon: '📒', title: 'Cash closing in 1 click', desc: 'No more 2 hours of counting at end of day. Closing is done automatically with a complete printable report.' },
         { icon: '🧾', title: 'Professional receipts', desc: 'Your clients receive a bilingual FR/EN PDF receipt in seconds. You look as professional as a bank.' },
         { icon: '📱', title: 'Manage from your phone', desc: 'Not in the office? Manage from anywhere. iOS and Android. Real-time dashboard in your pocket.' },
-        { icon: '🌍', title: 'Digital client payments', desc: 'Your clients send their bank receipts directly from their phone. You are notified instantly.' },
       ],
     },
     howItWorks: {
