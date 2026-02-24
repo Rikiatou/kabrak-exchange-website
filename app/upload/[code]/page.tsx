@@ -26,8 +26,10 @@ const T = {
     amount: 'Montant',
     bank: 'Banque',
     ref: 'Référence',
-    chooseFile: 'Choisir une photo / PDF',
+    chooseFile: 'Choisir depuis la galerie',
+    takePhoto: 'Prendre une photo',
     changeFile: 'Changer le fichier',
+    orText: 'ou',
     send: 'Envoyer le reçu',
     sending: 'Envoi en cours...',
     success: 'Reçu envoyé avec succès !',
@@ -47,8 +49,10 @@ const T = {
     amount: 'Amount',
     bank: 'Bank',
     ref: 'Reference',
-    chooseFile: 'Choose a photo / PDF',
+    chooseFile: 'Choose from gallery',
+    takePhoto: 'Take a photo',
     changeFile: 'Change file',
+    orText: 'or',
     send: 'Send receipt',
     sending: 'Sending...',
     success: 'Receipt sent successfully!',
@@ -74,6 +78,7 @@ export default function UploadPage() {
   const [errorMsg, setErrorMsg] = useState('');
   const [dragging, setDragging] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const cameraRef = useRef<HTMLInputElement>(null);
   const t = T[lang];
   const code = (params.code as string).toUpperCase();
 
@@ -227,14 +232,8 @@ export default function UploadPage() {
                 marginBottom: 16,
               }}
             >
-              <input
-                ref={inputRef}
-                type="file"
-                accept="image/*,.pdf"
-                style={{ display: 'none' }}
-                onChange={e => e.target.files?.[0] && handleFile(e.target.files[0])}
-                capture="environment"
-              />
+              <input ref={inputRef} type="file" accept="image/*,.pdf" style={{ display: 'none' }} onChange={e => e.target.files?.[0] && handleFile(e.target.files[0])} />
+              <input ref={cameraRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={e => e.target.files?.[0] && handleFile(e.target.files[0])} capture="environment" />
 
               {preview ? (
                 <img src={preview} alt="preview" style={{ maxHeight: 200, maxWidth: '100%', borderRadius: 12, marginBottom: 12, objectFit: 'contain' }} />
@@ -250,7 +249,21 @@ export default function UploadPage() {
                 </div>
               )}
 
-              <span style={{ fontSize: 12, color: '#64748b' }}>{file ? t.changeFile : t.accepted}</span>
+              <div style={{ display: 'flex', gap: 10, marginTop: 12, justifyContent: 'center' }}>
+                <button
+                  onClick={e => { e.stopPropagation(); cameraRef.current?.click(); }}
+                  style={{ flex: 1, padding: '10px 8px', borderRadius: 12, background: 'rgba(11,110,79,0.2)', border: '1px solid rgba(11,110,79,0.4)', color: '#4ade80', fontWeight: 700, fontSize: 13, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
+                >
+                  <Camera size={16} /> {file ? t.changeFile : t.takePhoto}
+                </button>
+                <button
+                  onClick={e => { e.stopPropagation(); inputRef.current?.click(); }}
+                  style={{ flex: 1, padding: '10px 8px', borderRadius: 12, background: 'rgba(232,160,32,0.15)', border: '1px solid rgba(232,160,32,0.3)', color: '#e8a020', fontWeight: 700, fontSize: 13, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
+                >
+                  <Upload size={16} /> {file ? t.changeFile : t.chooseFile}
+                </button>
+              </div>
+              <p style={{ fontSize: 11, color: '#64748b', marginTop: 8 }}>{t.accepted}</p>
             </div>
 
             {errorMsg && (

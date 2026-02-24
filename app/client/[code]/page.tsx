@@ -146,6 +146,7 @@ function PaymentModal({ order, clientCode, lang, t, onClose, onSuccess }: {
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
+  const cameraRef = useRef<HTMLInputElement>(null);
 
   const handleFile = (f: File) => {
     if (f.size > 10 * 1024 * 1024) { setErrorMsg(t.maxSize); return; }
@@ -230,19 +231,24 @@ function PaymentModal({ order, clientCode, lang, t, onClose, onSuccess }: {
             {/* Receipt */}
             <div style={{ marginBottom: 16 }}>
               <label style={{ color: '#94a3b8', fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 0.5, display: 'block', marginBottom: 8 }}>{t.receipt}</label>
-              <div
-                onClick={() => inputRef.current?.click()}
-                style={{ border: '2px dashed rgba(255,255,255,0.2)', borderRadius: 12, padding: 24, textAlign: 'center', cursor: 'pointer', background: 'rgba(255,255,255,0.03)' }}
-              >
-                <input ref={inputRef} type="file" accept="image/*,.pdf" capture="environment" style={{ display: 'none' }} onChange={e => e.target.files?.[0] && handleFile(e.target.files[0])} />
+              <div style={{ border: '2px dashed rgba(255,255,255,0.2)', borderRadius: 12, padding: 24, textAlign: 'center', background: 'rgba(255,255,255,0.03)' }}>
+                <input ref={inputRef} type="file" accept="image/*,.pdf" style={{ display: 'none' }} onChange={e => e.target.files?.[0] && handleFile(e.target.files[0])} />
+                <input ref={cameraRef} type="file" accept="image/*" capture="environment" style={{ display: 'none' }} onChange={e => e.target.files?.[0] && handleFile(e.target.files[0])} />
                 {preview ? (
-                  <img src={preview} alt="preview" style={{ maxHeight: 160, maxWidth: '100%', borderRadius: 8, objectFit: 'contain' }} />
+                  <img src={preview} alt="preview" style={{ maxHeight: 160, maxWidth: '100%', borderRadius: 8, objectFit: 'contain', marginBottom: 12 }} />
                 ) : file ? (
-                  <><FileText size={36} color={GREEN} style={{ margin: '0 auto 8px' }} /><p style={{ color: GREEN, fontSize: 13, fontWeight: 600 }}>{file.name}</p></>
+                  <><FileText size={36} color={GREEN} style={{ margin: '0 auto 8px' }} /><p style={{ color: GREEN, fontSize: 13, fontWeight: 600, marginBottom: 12 }}>{file.name}</p></>
                 ) : (
-                  <><Camera size={40} color="#94a3b8" style={{ margin: '0 auto 10px' }} /><p style={{ color: '#94a3b8', fontSize: 14 }}>{t.chooseFile}</p></>
+                  <><Camera size={40} color="#94a3b8" style={{ margin: '0 auto 10px' }} /><p style={{ color: '#94a3b8', fontSize: 13, marginBottom: 12 }}>{t.chooseFile}</p></>
                 )}
-                {file && <p style={{ color: '#64748b', fontSize: 12, marginTop: 8 }}>{t.changeFile}</p>}
+                <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
+                  <button onClick={() => cameraRef.current?.click()} style={{ flex: 1, padding: '10px 8px', borderRadius: 10, background: 'rgba(11,110,79,0.2)', border: '1px solid rgba(11,110,79,0.4)', color: '#4ade80', fontWeight: 700, fontSize: 12, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5 }}>
+                    <Camera size={14} /> Photo
+                  </button>
+                  <button onClick={() => inputRef.current?.click()} style={{ flex: 1, padding: '10px 8px', borderRadius: 10, background: 'rgba(232,160,32,0.15)', border: '1px solid rgba(232,160,32,0.3)', color: '#e8a020', fontWeight: 700, fontSize: 12, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5 }}>
+                    <Upload size={14} /> Galerie
+                  </button>
+                </div>
               </div>
             </div>
 
