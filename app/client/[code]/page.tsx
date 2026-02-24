@@ -409,6 +409,39 @@ export default function ClientPortalPage() {
 
   useEffect(() => { load(); }, [code]);
 
+  // Inject a dynamic manifest so "Add to Home Screen" opens /client/[code] not "/"
+  useEffect(() => {
+    const manifest = {
+      name: `${businessName} — Mon Portail`,
+      short_name: businessName,
+      description: 'Suivez vos commandes et envoyez vos reçus',
+      start_url: `/client/${code}`,
+      scope: `/client/${code}`,
+      display: 'standalone',
+      background_color: '#071a12',
+      theme_color: '#0B6E4F',
+      orientation: 'portrait',
+      icons: [
+        { src: '/icon-192', sizes: '192x192', type: 'image/svg+xml', purpose: 'any' },
+        { src: '/icon-512', sizes: '512x512', type: 'image/svg+xml', purpose: 'any maskable' },
+      ],
+    };
+    const blob = new Blob([JSON.stringify(manifest)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const existing = document.querySelector('link[rel="manifest"]');
+    if (existing) existing.setAttribute('href', url);
+    else {
+      const link = document.createElement('link');
+      link.rel = 'manifest';
+      link.href = url;
+      document.head.appendChild(link);
+    }
+    // Set apple-specific title to client name
+    const appleTitle = document.querySelector('meta[name="apple-mobile-web-app-title"]');
+    if (appleTitle) appleTitle.setAttribute('content', `${businessName}`);
+    return () => URL.revokeObjectURL(url);
+  }, [code, businessName]);
+
   useEffect(() => {
     const handler = (e: any) => { e.preventDefault(); setDeferredPrompt(e); setShowInstall(true); };
     window.addEventListener('beforeinstallprompt', handler);
